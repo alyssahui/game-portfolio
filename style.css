@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #222;
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 26px; /* Increased base size for handwriting font */    
+    color: #5c4033; /* Make all text brown */    
+    overflow: hidden;
+    position: relative;
+}
+
+#game-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 800px;
+    height: 600px;
+    background-color: #fff;
+    border: 10px solid #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+}
+
+.creator-name {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    font-size: 14px;
+    color: #FFFdd0;
+    z-index: 1000;
+}
+
+/* Grass background */
+#bg-grass {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('pictures/cloudbackground.jpg') center/cover;
+    border: 15px solid white;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.character-container {
+    position: absolute;
+    bottom: 120px;
+    left: 20%; /* Moved further left to cover the non-green patches */
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#marty-mouse {
+    width: 250px;
+    height: 350px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bobbing {
+    animation: bob 2s infinite ease-in-out;
+}
+
+@keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+#speech-bubble {
+    position: absolute;
+    bottom: 110px; /* Moved up as requested */
+    left: 300px;
+    background: white; /* Changed to white */
+    border: 3px solid #d4c4a8; /* Cute border */
+    border-radius: 15px;
+    padding: 10px;
+    width: 400px;
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    transition: opacity 0.3s ease;
+    z-index: 5;
+}
+
+#speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: 40px;
+    left: -20px;
+    transform: none;
+    border-width: 15px 20px 15px 0;
+    border-style: solid;
+    border-color: transparent white transparent transparent;
+}
+
+#speech-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: 38px;
+    left: -24px;
+    transform: none;
+    border-width: 17px 24px 17px 0;
+    border-style: solid;
+    border-color: transparent #d4c4a8 transparent transparent;
+    z-index: -1;
+}
+
+#speech-bubble.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#speech-bubble img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+.vn-textbox {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 150px;
+    background: #FFFDD0; /* Cream background */
+    border: 3px solid #d4c4a8;
+    border-radius: 10px;
+    padding: 40px;
+    color: #5c4033; /* Dark brown readable cutesy text */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    z-index: 10;
+}
+
+.name-badge {
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    background: #ffb6c1; /* Soft pink badge */
+    color: #5c4033; /* Dark brown text */
+    padding: 5px 15px;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 2px solid #FFFDD0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    font-size: 0.75em;
+    letter-spacing: 1px;
+}
+
+.dialogue-text { 
+    font-size: 0.65em;
+    line-height: 1.5;
+    text-shadow: none; /* Removed harsh shadow */
+}
+
+/* Overlay for end of gallery */
+#end-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    transition: opacity 0.3s ease;
+}
+
+#end-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#end-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#restart-btn {
+    background: #FFFDD0; /* Cream background */
+    border: 3px solid #d4c4a8; /* Cute border */
+    color: #5c4033; /* Dark brown cutesy text */
+    padding: 15px 30px;
+    font-size: 1.5em;
+    font-family: inherit;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    transition: transform 0.2s ease, background 0.2s;
+}
+
+#restart-btn:hover {
+    transform: scale(1.05);
+    background: white;
+}
