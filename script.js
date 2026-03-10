@@ -147,7 +147,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Prevent click if we are clicking the restart button
         if (e.target.id === 'restart-btn') return;
         
-        // Start the music on an interaction if it's currently paused
+        // Unmute and start the music on an interaction
+        titleMusic.muted = false;
         if (titleMusic.paused) {
             titleMusic.play().catch(err => console.log('Audio playback failed:', err));
         }
@@ -162,6 +163,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (e.key === " " || e.key === "ArrowRight") {
+            titleMusic.muted = false;
             if (titleMusic.paused) {
                 titleMusic.play().catch(err => console.log('Audio playback failed:', err));
             }
