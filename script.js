@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let currentIndex = 0;
     let descriptionState = 0; // 0: start, 1: first desc, 2: second desc
+    let hasStartedAudio = false;
 
     const gameContainer = document.getElementById('game-container');
     const speechBubble = document.getElementById('speech-bubble');
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const endOverlay = document.getElementById('end-overlay');
     const restartBtn = document.getElementById('restart-btn');
     const titleMusic = document.getElementById('title-music');
+    const muteBtn = document.getElementById('mute-btn');
 
     // Make the game dynamically scale to always fit entirely on-screen
     function resizeGame() {
@@ -44,6 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (descriptionState === 0) {
             dialogueText.innerText = "I'm one of the project leads for Honey Haven, a mystery visual novel game. I lead the storywriting and UI/UX design teams, working closely with artists and programmers to bring our story to your screen!";
             descriptionState = 1;
+            muteBtn.classList.remove('hidden');
             return;
         } else if (descriptionState === 1) {
             dialogueText.innerText = "We started this project in late January and are still in the works for developing it. Honey Haven is the story of Marty R, a mailmouse in an anthromorphic animal utopia.";
@@ -137,20 +140,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (descriptionState === 1) {
-            dialogueText.innerHTML = "Honey Haven ~ Game Design Portfolio ft. Main Theme<br> <br>[click and turn on your sound!]";
+            dialogueText.innerHTML = "Honey Haven ~ Game Design Portfolio ft. Main Theme<br> <br>[click and turn on sound]";
             descriptionState = 0;
+            muteBtn.classList.add('hidden');
             return;
         }
     }
 
+    muteBtn.addEventListener('click', (e) => {
+        // Prevent click from advancing the screen
+        e.stopPropagation();
+        
+        titleMusic.muted = !titleMusic.muted;
+        muteBtn.innerText = titleMusic.muted ? "Unmute" : "Mute";
+    });
+
     gameContainer.addEventListener('click', (e) => {
         // Prevent click if we are clicking the restart button
-        if (e.target.id === 'restart-btn') return;
+        if (e.target.id === 'restart-btn' || e.target.id === 'mute-btn') return;
         
-        // Unmute and start the music on an interaction
-        titleMusic.muted = false;
-        if (titleMusic.paused) {
-            titleMusic.play().catch(err => console.log('Audio playback failed:', err));
+        // Unmute and start the music on first interaction
+        if (!hasStartedAudio) {
+            hasStartedAudio = true;
+            titleMusic.muted = false;
+            muteBtn.innerText = "Mute";
+            if (titleMusic.paused) {
+                titleMusic.play().catch(err => console.log('Audio playback failed:', err));
+            }
         }
         
         advanceState();
@@ -163,9 +179,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (e.key === " " || e.key === "ArrowRight") {
-            titleMusic.muted = false;
-            if (titleMusic.paused) {
-                titleMusic.play().catch(err => console.log('Audio playback failed:', err));
+            if (!hasStartedAudio) {
+                hasStartedAudio = true;
+                titleMusic.muted = false;
+                muteBtn.innerText = "Mute";
+                if (titleMusic.paused) {
+                    titleMusic.play().catch(err => console.log('Audio playback failed:', err));
+                }
             }
             // Don't trigger if end overlay is fully interactable and they should just use the restart button or we consider overlay as final
             // But usually we can just advance and let it do its thing
@@ -182,7 +202,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         endOverlay.classList.remove('visible');
         endOverlay.classList.add('hidden');
         speechBubble.classList.add('hidden');
-        dialogueText.innerHTML = "Honey Haven ~ Game Design Portfolio ft. Main Theme<br> <br>[click and turn on your sound!]";
+        muteBtn.classList.add('hidden');
+        dialogueText.innerHTML = "Honey Haven ~ Game Design Portfolio ft. Main Theme<br> <br>[click and turn on sound]";
         portfolioImage.src = "";
     });
 });

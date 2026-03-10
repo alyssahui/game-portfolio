@@ -217,3 +217,31 @@ body {
     transform: scale(1.05);
     background: white;
 }
+
+.mute-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #FFFDD0;
+    border: 2px solid #d4c4a8;
+    color: #5c4033;
+    padding: 4px 10px;
+    font-size: 0.45em;
+    font-family: inherit;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+    transition: transform 0.2s ease, background 0.2s, opacity 0.3s ease;
+}
+
+.mute-btn.hidden {
+    opacity: 0;
+    pointer-events: none;
+    display: none;
+}
+
+.mute-btn:hover {
+    transform: scale(1.05);
+    background: white;
+}
