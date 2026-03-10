@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (descriptionState === 1) {
-            dialogueText.innerHTML = "Honey Haven ~ Game Design Portfolio ft. Main Theme<br> <br>[Click to continue!]";
+            dialogueText.innerHTML = "Honey Haven ~ Game Design Portfolio ft. Main Theme<br> <br>[click and turn on your sound!]";
             descriptionState = 0;
             return;
         }
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         endOverlay.classList.remove('visible');
         endOverlay.classList.add('hidden');
         speechBubble.classList.add('hidden');
-        dialogueText.innerHTML = "Honey Haven ~ Game Design Portfolio ft. Main Theme<br> <br>[Click to continue!]";
+        dialogueText.innerHTML = "Honey Haven ~ Game Design Portfolio ft. Main Theme<br> <br>[click and turn on your sound!]";
         portfolioImage.src = "";
     });
 });
