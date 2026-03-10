@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         { src: 'animal crossing new horizons • background.jpg', text: "After getting my friend on board, we brought together our favorite games to create the idea for a mystery visual novel. Animal Crossing and Doki Doki Literature Club were our main inspirations." },
         { src: 'character-reference.JPG', text: "Then, we pitched and recruited a team with skills ranging from music to traditional art. Our game uses two art styles. This is the first!" },
         { src: 'demon-reference.JPG', text: "This is the second. Why this? Stay tuned for the game release to find out.." },
-        { src: 'marty-reference.JPG', text: "This picture created the idea for a mailman mouse as the main character." },
+        { src: 'marty-reference.JPG', text: "This picture created the idea for a mailmouse as the main character." },
         { src: 'other-characters.JPG', text: "Our initial designs for island residents! This went hand in hand with storywriting, which ties these characters' lives and mysteries together." },
         { src: 'dog-process.PNG', text: "After many tests with different styles, we solidifed what we like best---what we think will best fit our narrative." },
         { src: 'bag-process.PNG', text: "Designing the mailman bag!" },
@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const dialogueText = document.getElementById('dialogue-text');
     const endOverlay = document.getElementById('end-overlay');
     const restartBtn = document.getElementById('restart-btn');
+    const titleMusic = document.getElementById('title-music');
 
     // Make the game dynamically scale to always fit entirely on-screen
     function resizeGame() {
@@ -41,11 +42,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function advanceState() {
         if (descriptionState === 0) {
-            dialogueText.innerText = "I am one of the project leads for Honey Haven, a mystery visual novel game. I lead the storywriting and UI/UX design teams, working closely with artists and programmers to bring our story to your screen!";
+            dialogueText.innerText = "I'm one of the project leads for Honey Haven, a mystery visual novel game. I lead the storywriting and UI/UX design teams, working closely with artists and programmers to bring our story to your screen!";
             descriptionState = 1;
             return;
         } else if (descriptionState === 1) {
-            dialogueText.innerText = "We started this project in late January and are still in the works for developing it. Honey Haven is the story of Marty R, a mouse mailman in an anthromorphic animal utopia.";
+            dialogueText.innerText = "We started this project in late January and are still in the works for developing it. Honey Haven is the story of Marty R, a mailmouse in an anthromorphic animal utopia.";
             descriptionState = 2;
             return;
         } else if (descriptionState === 2) {
@@ -124,19 +125,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (descriptionState === 3) {
-            dialogueText.innerText = "We started this project in late January and are still in the works for developing it. Honey Haven is the story of Marty R, a mouse mailman in an anthromorphic animal utopia.";
+            dialogueText.innerText = "We started this project in late January and are still in the works for developing it. Honey Haven is the story of Marty R, a mailmouse in an anthromorphic animal utopia.";
             descriptionState = 2;
             return;
         }
 
         if (descriptionState === 2) {
-            dialogueText.innerText = "I am one of the project leads for Honey Haven, a mystery visual novel game. I lead the storywriting and UI/UX design teams, working closely with artists and programmers to bring our story to your screen!";
+            dialogueText.innerText = "I'm one of the project leads for Honey Haven, a mystery visual novel game. I lead the storywriting and UI/UX design teams, working closely with artists and programmers to bring our story to your screen!";
             descriptionState = 1;
             return;
         }
 
         if (descriptionState === 1) {
-            dialogueText.innerHTML = "Honey Haven ~ Game Design Portfolio<br>[Click to continue!]";
+            dialogueText.innerHTML = "Honey Haven ~ Game Design Portfolio ft. Main Theme<br> <br>[Click to continue!]";
             descriptionState = 0;
             return;
         }
@@ -145,6 +146,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     gameContainer.addEventListener('click', (e) => {
         // Prevent click if we are clicking the restart button
         if (e.target.id === 'restart-btn') return;
+        
+        // Start the music on an interaction if it's currently paused
+        if (titleMusic.paused) {
+            titleMusic.play().catch(err => console.log('Audio playback failed:', err));
+        }
+        
         advanceState();
     });
 
@@ -155,6 +162,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (e.key === " " || e.key === "ArrowRight") {
+            if (titleMusic.paused) {
+                titleMusic.play().catch(err => console.log('Audio playback failed:', err));
+            }
             // Don't trigger if end overlay is fully interactable and they should just use the restart button or we consider overlay as final
             // But usually we can just advance and let it do its thing
             advanceState();
@@ -170,7 +180,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         endOverlay.classList.remove('visible');
         endOverlay.classList.add('hidden');
         speechBubble.classList.add('hidden');
-        dialogueText.innerHTML = "Honey Haven ~ Game Design Portfolio<br>[Click to continue!]";
+        dialogueText.innerHTML = "Honey Haven ~ Game Design Portfolio ft. Main Theme<br> <br>[Click to continue!]";
         portfolioImage.src = "";
     });
 });
